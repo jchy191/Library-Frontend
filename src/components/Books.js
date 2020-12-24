@@ -1,48 +1,53 @@
 import { useQuery } from '@apollo/client';
-import React, { useEffect, useState } from 'react'
+import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
 import { ALL_BOOKS } from '../queries';
 
 const Books = (props) => {
-  
-  const [books, setBooks] = useState([]);
-  const result = useQuery(ALL_BOOKS);
 
-  useEffect(() => {
-    if (result.data) {
-      setBooks(result.data.allBooks);
-    }
-  }, [result])
+	const [books, setBooks] = useState([]);
+	const result = useQuery(ALL_BOOKS);
 
-  if (!props.show) {
-    return null
-  }
+	useEffect(() => {
+		if (result.data) {
+			setBooks(result.data.allBooks);
+		}
+	}, [result]);
 
-  return (
-    <div>
-      <h2>books</h2>
+	if (!props.show) {
+		return null;
+	}
 
-      <table>
-        <tbody>
-          <tr>
-            <th></th>
-            <th>
+	return (
+		<div>
+			<h2>books</h2>
+
+			<table>
+				<tbody>
+					<tr>
+						<th></th>
+						<th>
               author
-            </th>
-            <th>
+						</th>
+						<th>
               published
-            </th>
-          </tr>
-          {books.map(a =>
-            <tr key={a.title}>
-              <td>{a.title}</td>
-              <td>{a.author}</td>
-              <td>{a.published}</td>
-            </tr>
-          )}
-        </tbody>
-      </table>
-    </div>
-  )
-}
+						</th>
+					</tr>
+					{books.map(a =>
+						<tr key={a.title}>
+							<td>{a.title}</td>
+							<td>{a.author}</td>
+							<td>{a.published}</td>
+						</tr>
+					)}
+				</tbody>
+			</table>
+		</div>
+	);
+};
 
-export default Books
+Books.propTypes = {
+	show: PropTypes.bool.isRequired,
+};
+
+export default Books;
